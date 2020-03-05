@@ -19,12 +19,23 @@ module.exports = app => {
   });
 
   app.put("/api/workouts/:id", (req, res) => {
-    console.log(req.body);
     db.Workout.findOneAndUpdate(
       req.params.id,
       { $push: { exercises: req.body } },
       { new: true }
     )
+      .then(data => {
+        console.log(data);
+        res.json(data);
+      })
+      .catch(err => {
+        res.json(err);
+      });
+  });
+
+  app.get("/api/workouts/range", (req, res) => {
+    db.Workout.find({})
+      .populate("stats")
       .then(data => {
         res.json(data);
       })
