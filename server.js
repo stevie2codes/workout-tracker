@@ -1,9 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
 const mongoose = require("mongoose");
-const html_routes = require("./routes/html_routes");
 
-const Workout = require("./models/workout");
 const PORT = process.env.PORT || 3000;
 
 const app = express();
@@ -19,7 +17,8 @@ require("./routes/html_routes")(app);
 require("./routes/api_routes")(app);
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
-  useNewUrlParser: true
+  useNewUrlParser: true,
+  useFindAndModify: false
 });
 
 app.listen(PORT, () => {
